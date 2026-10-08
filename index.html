@@ -2,297 +2,35 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Stream Chat Preview</title>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
-  <style>
-
-    /* ── Layout tokens ── */
-    :root {
-      --accent: #009fe3;
-      --accent-2: #4285ec;
-      --panel: #1a1a1a;
-      --border: #2a2a2a;
-      --fg: #f0f0f0;
-      --fg-muted: #666;
-      color-scheme: dark;
-    }
-
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-    html, body {
-      height: 100%;
-      font-family: 'Roboto', system-ui, sans-serif;
-      background: #0c0c0c;
-      color: var(--fg);
-    }
-
-    body {
-      display: flex;
-      flex-direction: column;
-    }
-
-    /* Controls bar */
-    .controls {
-      background: var(--panel);
-      border-bottom: 1px solid var(--border);
-      padding: 10px 16px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      flex-wrap: wrap;
-    }
-
-    .controls-title {
-      font-size: 11px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.12em;
-      color: var(--accent);
-      flex: 1;
-    }
-
-    .btn {
-      background: var(--accent);
-      color: #fff;
-      border: none;
-      border-radius: 4px;
-      padding: 6px 14px;
-      font-size: 11px;
-      font-weight: 700;
-      font-family: inherit;
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-      cursor: pointer;
-    }
-    .btn:hover { opacity: 0.82; }
-
-    .btn-ghost {
-      background: transparent;
-      border: 1px solid var(--border);
-      color: var(--fg-muted);
-    }
-    .btn-ghost:hover { border-color: var(--fg-muted); color: var(--fg); opacity: 1; }
-
-    /* Stream preview area */
-    .preview {
-      flex: 1;
-      position: relative;
-      min-height: 360px;
-      overflow: hidden;
-      /* Damier = fond transparent simulé */
-      background-color: #050505;
-      background-image:
-        linear-gradient(45deg, #0f0f0f 25%, transparent 25%),
-        linear-gradient(-45deg, #0f0f0f 25%, transparent 25%),
-        linear-gradient(45deg, transparent 75%, #0f0f0f 75%),
-        linear-gradient(-45deg, transparent 75%, #0f0f0f 75%);
-      background-size: 22px 22px;
-      background-position: 0 0, 0 11px, 11px -11px, -11px 0;
-    }
-
-    .preview-label {
-      position: absolute;
-      top: 10px;
-      right: 14px;
-      font-size: 9px;
-      text-transform: uppercase;
-      letter-spacing: 0.14em;
-      color: rgba(255,255,255,0.18);
-      pointer-events: none;
-    }
-
-    /* ═══════════════════════════════════════
-       STREAMLABS CHAT WIDGET — CSS résolu
-       {background_color} = transparent
-       {font_size}        = 16px
-       {text_color}       = #ffffff
-       {message_hide_delay} = 30s
-    ═══════════════════════════════════════ */
-
-    #log > div {
-      animation: fadeInRight .3s ease forwards, fadeOut 0.5s ease 30s forwards;
-      -webkit-animation: fadeInRight .3s ease forwards, fadeOut 0.5s ease 30s forwards;
-    }
-
-    .colon { display: none; }
-
-    #log {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      padding: 0 10px 10px;
-      width: 100%;
-      font-family: 'Roboto', sans-serif;
-      font-weight: 700;
-      font-size: 16px;
-      line-height: 1.5em;
-      color: #ffffff;
-    }
-
-    #log > div { margin: 1em; }
-    #log > div.deleted { visibility: hidden; }
-
-    #log .emote {
-      background-repeat: no-repeat;
-      background-position: center;
-      background-size: contain;
-      padding: 0.4em 0.2em;
-      position: relative;
-    }
-
-    #log .emote img {
-      display: inline-block;
-      height: 1em;
-      opacity: 0;
-    }
-
-    #log .message, #log .meta {
-      vertical-align: top;
-      display: table-cell;
-      padding-bottom: 0.1em;
-    }
-
-    #log .meta {
-      position: relative;
-      top: 15px;
-      display: inline;
-      background: rgb(0,159,227);
-      background: -moz-linear-gradient(left, rgba(0,159,227,1) 0%, rgba(66,133,236,1) 100%);
-      background: -webkit-linear-gradient(left, rgba(0,159,227,1) 0%, rgba(66,133,236,1) 100%);
-      background: linear-gradient(to right, rgba(0,159,227,1) 0%, rgba(66,133,236,1) 100%);
-      padding: 0.5em 1.5em 0.5em 0.5em;
-      white-space: nowrap;
-      text-overflow: ellipsis;
-      overflow: hidden;
-    }
-
-    #log .message {
-      color: #242424;
-      background: -moz-linear-gradient(left, rgba(255,255,255,1) 100%, rgba(255,255,255,0) 50%, rgba(255,255,255,0) 100%);
-      background: -webkit-linear-gradient(left, rgba(255,255,255,1) 100%, rgba(255,255,255,0) 50%, rgba(255,255,255,0) 100%);
-      background: linear-gradient(to right, rgba(255,255,255,1) 100%, rgba(255,255,255,0) 50%, rgba(255,255,255,0) 100%);
-      font-weight: normal;
-      border-left: 5px solid #009fe3;
-      padding: 1.5em 1em 0.8em 0.8em;
-      word-wrap: break-word;
-      width: 65%;
-      text-shadow: -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff, 1px 1px 0 #fff;
-    }
-
-    .badge {
-      display: inline-block;
-      margin-right: 0.2em;
-      position: relative;
-      height: 1em;
-      vertical-align: middle;
-      top: -0.1em;
-    }
-
-    .name {
-      color: #fff;
-      margin-left: 0.2em;
-    }
-
-    /* Keyframes fournis par Streamlabs en prod */
-    @keyframes fadeInRight {
-      from { opacity: 0; transform: translateX(30px); }
-      to   { opacity: 1; transform: translateX(0); }
-    }
-    @-webkit-keyframes fadeInRight {
-      from { opacity: 0; transform: translateX(30px); }
-      to   { opacity: 1; transform: translateX(0); }
-    }
-    @keyframes fadeOut {
-      from { opacity: 1; }
-      to   { opacity: 0; }
-    }
-    @-webkit-keyframes fadeOut {
-      from { opacity: 1; }
-      to   { opacity: 0; }
-    }
-
-  </style>
 </head>
 <body>
 
-  <div class="controls">
-    <span class="controls-title">Stream Chat — Aperçu Streamlabs</span>
-    <button class="btn" onclick="addRandomMessage()">+ Message test</button>
-    <button class="btn btn-ghost" onclick="clearLog()">Vider</button>
+  <div id="log">
+    <div>
+      <span class="meta">
+        <span class="name">StreamFan42</span>
+        <span class="colon">:</span>
+      </span>
+      <span class="message">Bonjour tout le monde ! 👋</span>
+    </div>
+    <div>
+      <span class="meta">
+        <span class="name">Kipouille_</span>
+        <span class="colon">:</span>
+      </span>
+      <span class="message">LETS GOOO 🔥</span>
+    </div>
+    <div>
+      <span class="meta">
+        <span class="name">Kipouille_</span>
+        <span class="colon">:</span>
+      </span>
+      <span class="message">Bonjour à tous, comment ça va aujourd'hui ?🔥</span>
+    </div>
   </div>
 
-  <div class="preview">
-    <span class="preview-label">Overlay OBS · fond transparent simulé</span>
-    <div id="log"></div>
-  </div>
-
-  <script>
-    const USERS = [
-      { name: "StreamFan42",   color: "#ff6b35" },
-      { name: "Kipouille_",    color: "#9b59b6" },
-      { name: "MariePitch",    color: "#e91e63" },
-      { name: "AlphaGamer",    color: "#00bcd4" },
-      { name: "Kevin_38",      color: "#4caf50" },
-      { name: "LaFabuleuse",   color: "#ff9800" },
-      { name: "xXDarkLordXx", color: "#e53935" },
-    ];
-
-    const MESSAGES = [
-      "GG ! Beau run !",
-      "PogChamp ce boss 😮",
-      "Comment tu fais ça ?!",
-      "LETS GOOO 🔥🔥🔥",
-      "T'es trop fort !",
-      "Premier sub PogChamp",
-      "J'ai raté quoi là ?",
-      "clip clip clip !",
-      "On est combien en ce moment ?",
-      "Bonjour tout le monde ! 👋",
-      "Ce stream est vraiment top 👏",
-      "hahaha xD c'est quoi ce run",
-      "Quelle map c'est là ?",
-      "GG WP no re",
-    ];
-
-    const BADGE_SVG = `data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 18 18'%3E%3Crect width='18' height='18' rx='3' fill='%23009fe3'/%3E%3Ctext x='9' y='13' text-anchor='middle' fill='white' font-size='10' font-weight='bold' font-family='Arial'%3E%E2%98%85%3C/text%3E%3C/svg%3E`;
-
-    function createMessage(user, text, showBadge) {
-      const div = document.createElement('div');
-      div.innerHTML = `
-        <span class="meta">
-          ${showBadge ? `<img class="badge" src="${BADGE_SVG}" />` : ''}
-          <span class="name">${user.name}</span>
-          <span class="colon">:</span>
-        </span>
-        <span class="message">${text}</span>
-      `;
-      return div;
-    }
-
-    function addRandomMessage() {
-      const user = USERS[Math.floor(Math.random() * USERS.length)];
-      const text = MESSAGES[Math.floor(Math.random() * MESSAGES.length)];
-      const showBadge = Math.random() > 0.5;
-      document.getElementById('log').appendChild(createMessage(user, text, showBadge));
-    }
-
-    function clearLog() {
-      document.getElementById('log').innerHTML = '';
-    }
-
-    // 3 messages au chargement
-    const PRELOADED = [
-      [USERS[0], "Bonjour tout le monde ! 👋", true],
-      [USERS[2], "LETS GOOO 🔥", false],
-      [USERS[4], "Premier message sur ce stream !", true],
-    ];
-    window.addEventListener('load', () => {
-      PRELOADED.forEach(([u, m, b]) =>
-        document.getElementById('log').appendChild(createMessage(u, m, b))
-      );
-    });
-  </script>
-
+  <script type="module" src="/src/main.js"></script>
 </body>
 </html>

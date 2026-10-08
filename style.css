@@ -1,117 +1,109 @@
-@import url(https://fonts.googleapis.com/css?family=Roboto:700);
-
+@import url("https://fonts.googleapis.com/css?family=Roboto:700");
 * {
-    box-sizing: border-box;
+  box-sizing: border-box;
 }
 
 html, body {
-    height: 100%;
-    overflow: hidden;
+  height: 100%;
+  overflow: hidden;
 }
 
 body {
-    background: {background_color};
-    font-family: 'Roboto';
-    font-weight: 700;
-    font-size: {font_size};
-    line-height: 1.5em;
-    color: {text_color};
+  background: #152331; /* fallback for old browsers */
+  background: -webkit-linear-gradient(to right, #000000, #152331); /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to right, #000000, #152331); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  font-family: "Roboto", sans-serif;
+  font-weight: 700;
+  font-size: {font_size};
+  line-height: 1.5em;
+  color: {text_color};
 }
 
-/* Box de message */
-#log>div {
-    animation: fadeInRight .3s ease forwards, fadeOut 0.5s ease {message_hide_delay} forwards;
-    -webkit-animation: fadeInRight .3s ease forwards, fadeOut 0.5s ease {message_hide_delay} forwards;
+@keyframes fadeInRight {
+  from {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
 }
-
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
 .colon {
-    display: none;
+  display: none;
 }
 
 #log {
-    position: absolute; bottom: 0; left: 0;
-    padding: 0 10px 10px;
-    width: 100%;
- }
-
-#log>div {
-	margin: 1em;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  padding: 0 10px 10px;
+  width: 100%;
 }
-
-#log>div.deleted {
-    visibility: hidden;
+#log > div {
+  margin: 1em;
+  animation: fadeInRight 0.3s ease forwards, fadeOut 0.5s ease {message_hide_delay} forwards;
 }
-
+#log > div.deleted {
+  visibility: hidden;
+}
 #log .emote {
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: contain;
-    padding: 0.4em 0.2em;
-    position: relative;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  padding: 0.4em 0.2em;
+  position: relative;
 }
-
 #log .emote img {
-    display: inline-block;
-    height: 1em;
-    opacity: 0;
+  display: inline-block;
+  height: 1em;
+  opacity: 0;
 }
-
-#log .message,#log .meta {
-    vertical-align: top;
-    display: table-cell;
-    padding-bottom: 0.1em;
-}
-
-/* Nom du viewer */
+#log .message,
 #log .meta {
-  	position: relative;
-  	top: 15px;
-    display: inline;
-  	/* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#009fe3+0,4285ec+100 */
-background: rgb(0,159,227); /* Old browsers */
-background: -moz-linear-gradient(left,  rgba(0,159,227,1) 0%, rgba(66,133,236,1) 100%); /* FF3.6-15 */
-background: -webkit-linear-gradient(left,  rgba(0,159,227,1) 0%,rgba(66,133,236,1) 100%); /* Chrome10-25,Safari5.1-6 */
-background: linear-gradient(to right,  rgba(0,159,227,1) 0%,rgba(66,133,236,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#009fe3', endColorstr='#4285ec',GradientType=1 ); /* IE6-9 */
-
-  	
-  	/*border-radius: 0px 15px 15px 15px;*/
-    padding: 0.5em 1.5em 0.5em 0.5em;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    overflow: hidden;
+  vertical-align: top;
+  display: table-cell;
+  padding-bottom: 0.1em;
 }
-
-/* Message */
+#log .meta {
+  position: relative;
+  top: 15px;
+  display: inline;
+  background: linear-gradient(to right, #009fe3 0%, #4285ec 100%);
+  padding: 0.5em 1.5em 0.5em 0.5em;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
 #log .message {
-
-  	color: #242424;
-/* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#ffffff+0,ffffff+50,ffffff+50,7db9e8+100&1+0,1+50,0+100 */
-background: -moz-linear-gradient(left,  rgba(255,255,255,1) 100%, rgba(255,255,255,0) 50%, rgba(255,255,255,0) 100%); /* FF3.6-15 */
-background: -webkit-linear-gradient(left,  rgba(255,255,255,1) 100%,rgba(255,255,255,0) 50%,rgba(255,255,255,0) 100%); /* Chrome10-25,Safari5.1-6 */
-background: linear-gradient(to right,  rgba(255,255,255,1) 100%,rgba(255,255,255,0) 50%,rgba(255,255,255,0) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#007db9e8',GradientType=1 ); /* IE6-9 */
-
-  	font-weight: normal;
-		
-  	border-left: 5px solid #009fe3;
-  	padding: 1.5em 1em 0.8em 0.8em;
-  	/*border-radius: 15px;*/
-    word-wrap: break-word;
-    width: 65%;
-  	text-shadow: -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff, 1px 1px 0 #fff;
+  color: #242424;
+  background: linear-gradient(to right, #ffffff 50%, transparent 100%);
+  font-weight: normal;
+  border-left: 5px solid #009fe3;
+  padding: 1.5em 4em 0.3em 0.8em;
+  word-wrap: break-word;
+  width: max-content;
+  text-shadow: -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff, 1px 1px 0 #fff;
 }
 
 .badge {
-    display: inline-block;
-    margin-right: 0.2em;
-    position: relative;
-    height: 1em;
-    vertical-align: middle;
-    top: -0.1em;
+  display: inline-block;
+  margin-right: 0.2em;
+  position: relative;
+  height: 1em;
+  vertical-align: middle;
+  top: -0.1em;
 }
 
 .name {
-  	color: #fff;
-    margin-left: 0.2em;
+  color: #ffffff;
+  margin-left: 0.2em;
 }

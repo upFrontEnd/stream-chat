@@ -1,0 +1,22 @@
+// ── Streamlabs template variables ──────────────────────────────
+// Valeurs par défaut = CSS valide pour le dev (Vite/PostCSS).
+// Remplacées par les tokens Streamlabs dans streamlabs.scss (build CLI uniquement).
+$sl-background-color: transparent !default;
+$sl-font-size:        16px        !default;
+$sl-text-color:       #ffffff     !default;
+$sl-hide-delay:       30s         !default;
+
+// ── Couleurs ────────────────────────────────────────────────────
+$accent-start:  #009fe3;
+$accent-end:    #4285ec;
+$message-bg:    #ffffff;
+$message-color: #242424;
+$name-color:    #ffffff;
+
+// ── Typographie ─────────────────────────────────────────────────
+$font-family: 'Roboto', sans-serif;
+$line-height: 1.5em;
+
+// ── Animations ──────────────────────────────────────────────────
+$fade-in-duration:  0.3s;
+$fade-out-duration: 0.5s;

@@ -1,0 +1,13 @@
+// ── Entrée dédiée au build CLI (sass → style.css) ──────────────
+// Ce fichier N'est PAS importé par Vite.
+// Il configure les variables Streamlabs avant que les partials les lisent,
+// grâce au mécanisme @use ... with () du module system SCSS.
+@use 'variables' with (
+  $sl-background-color: '{background_color}',
+  $sl-font-size:        '{font_size}',
+  $sl-text-color:       '{text_color}',
+  $sl-hide-delay:       '{message_hide_delay}'
+);
+
+@use 'base';
+@use 'chat';

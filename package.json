@@ -1,0 +1,15 @@
+{
+  "name": "stream-chat",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "sass src/styles/streamlabs.scss style.css --style=expanded --no-source-map",
+    "build:watch": "sass src/styles/streamlabs.scss style.css --watch --source-map",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "sass": "^1.80.0",
+    "vite": "^6.0.0"
+  }
+}
